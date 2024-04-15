@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Compiled files
+*.pyc
+
+# Dependency directories
+lib/
+lib64/
+bin/
+include/
+
+# Miscellaneous
+*.swp
+.DS_Store
+
+# Local folder storage
+csv/
