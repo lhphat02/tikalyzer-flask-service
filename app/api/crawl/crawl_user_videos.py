@@ -34,7 +34,7 @@ async def get_user_videos(user_name):
     result_data = response.get_response()
 
     async with TikTokApi() as api:
-        # Create TikTok sessions
+        # Create TikTok sessions 
         await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=1,executable_path="C:/Program Files/Google/Chrome/Application/chrome.exe")
 
         # Get user videos count
