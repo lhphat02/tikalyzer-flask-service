@@ -40,16 +40,15 @@ async def get_user_videos_analytics(user_name):
         cleaned_data = clean_data(df)
 
         # Get distribution chart
-        dist_chart = get_dis_chart(cleaned_data, 'Views', "Number of videos", "Views distribution")
+        dist_chart = get_dis_chart(cleaned_data, 'Views')
 
         # Set response data
         response.success = True
-        response.message = "User videos data has been retrieved successfully."
-        response.data["videos"] = user_video_data["data"]["videos"]
-        response.data["total"] = user_video_data["data"]["total"]
-        response.data["dist_chart"] = dist_chart
+        response.message = "User videos data analytics has been generated successfully."
+        response.data["displotUrl"] = dist_chart
+        response.data["rowCount"] = len(cleaned_data)
 
-        print(f"{Fore.GREEN}User videos data has been retrieved successfully.")
+        print(f"{Fore.GREEN}User videos data analytics has been generated successfully.")
 
         return response.to_dict()
     

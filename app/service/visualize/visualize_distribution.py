@@ -1,19 +1,27 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib
 
 import base64
 from io import BytesIO
 
-def get_dis_chart(df: pd.DataFrame,  column: str, ylabel: str, title: str, color: str = "blue") -> str:
+def configure_matplotlib():
+    """
+    Configure Matplotlib to use a non-GUI backend.
+    """
+    matplotlib.use('agg')
+
+configure_matplotlib() 
+
+def get_dis_chart(df: pd.DataFrame,  column: str, color: str = "#00607A") -> str:
     """
     Create a distribution plot from the given DataFrame and return it as HTML.
 
     Args:
         df (DataFrame): Input DataFrame.
         column (str): Column name to plot.
-        ylabel (str): Label for the y-axis.
-        title (str): Title of the plot.
+        color (str): Plot color.
 
     Returns:
         str: HTML containing the distribution plot.
@@ -21,8 +29,7 @@ def get_dis_chart(df: pd.DataFrame,  column: str, ylabel: str, title: str, color
 
     # Create a bar plot
     sns.displot(df[column], kde=False, color=color, bins=30, ec="black")
-    plt.ylabel(ylabel)
-    plt.title(title)
+    plt.ylabel("Number of videos")
 
     # Convert plot to HTML
     buffer = BytesIO()
@@ -32,4 +39,4 @@ def get_dis_chart(df: pd.DataFrame,  column: str, ylabel: str, title: str, color
     plt.close()
 
     # Return HTML containing the plot
-    return f'<img src="data:image/png;base64,{plot_data}" alt="bar chart">'
+    return f"data:image/png;base64,{plot_data}"
