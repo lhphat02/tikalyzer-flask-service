@@ -8,8 +8,6 @@ API for TikTok analyzing service
 
 ## Installation
 
-First, open TikTok on your browser and login. [https://www.tiktok.com]
-
 Initially install with pip
 
 ```bash
@@ -49,6 +47,8 @@ Now if a small adjustment for your TikTok-API library so that it can works norma
 4. Voila, enjoy! Don't forget to `Ctrl + S`.
 
 ## Run Locally
+
+First, open TikTok on your browser and login so that the code can get your msToken. [https://www.tiktok.com]
 
 Clone the project
 
