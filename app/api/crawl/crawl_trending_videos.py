@@ -10,7 +10,8 @@ from TikTokApi import TikTokApi
 
 from ...model.response import Response
 from ...model.crawl_response_data import CrawlResponseData
-from . import ms_token
+
+ms_token = 'mNjVmBJ8y1xPClasoANjANKNwSjpC5tQl8eLwdYb8mhrO75-iRsRTaOIsJfYP8eT-6Dk5jeYneZ45_6iP-jci7KNdmOnL4lpepbdHRg3f7DbexiTwPYNX9Ci92Q1kKbZAUWVvmHzqK9PdCtrFw=='
 
 crawl_trending_videos_bp = Blueprint('crawl_trending_videos', __name__)
 
@@ -103,6 +104,7 @@ async def get_trending_videos(num_data=100):
     # Set response data
     response.set_response(True, f"{row_count} trending videos data has been saved to a CSV file.", response_data)
     print("\n" + Fore.GREEN + result_data["message"] + Fore.RESET)
+    
     return result_data
 
 @crawl_trending_videos_bp.route('/crawl-trending-videos')
