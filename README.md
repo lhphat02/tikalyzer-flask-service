@@ -2,9 +2,13 @@
 
 API for TikTok analyzing service
 
+<br/>
+
 ## 💻 Tech Stack
 
 **Server:** Sure, it's Flask
+
+<br/>
 
 
 ## 🏃‍♂️ Run Locally
@@ -34,6 +38,9 @@ Start the server
 ```bash
   flask run
 ```
+
+<br/>
+
 ## 🚀 Installation and Set up for TikTok-API library
 
 Initially install with pip
@@ -73,6 +80,8 @@ Now if a small adjustment for your TikTok-API library so that it can works norma
 ```
 
 4. Voila, enjoy! Don't forget to `Ctrl + S`.
+
+<br/>
 
 ## 📖 API Reference
 
