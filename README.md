@@ -2,12 +2,12 @@
 
 API for TikTok analyzing service
 
-## Tech Stack
+## 💻 Tech Stack
 
 **Server:** Sure, it's Flask
 
 
-## Run Locally
+## 🏃‍♂️ Run Locally
 
 First, open TikTok on your browser and login so that the code can get your msToken. [https://www.tiktok.com]
 
@@ -34,7 +34,7 @@ Start the server
 ```bash
   flask run
 ```
-## Installation and Set up for TikTok-API library
+## 🚀 Installation and Set up for TikTok-API library
 
 Initially install with pip
 
@@ -74,7 +74,7 @@ Now if a small adjustment for your TikTok-API library so that it can works norma
 
 4. Voila, enjoy! Don't forget to `Ctrl + S`.
 
-## API Reference
+## 📖 API Reference
 
 #### Get insights of an user's videos
 
