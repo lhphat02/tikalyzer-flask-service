@@ -92,9 +92,9 @@ Start the server
   GET /api/hashtagVideoInsights?hashtag=${hashtag}
 ```
 
-| Parameter   | Type     | Description                              |
-| :---------- | :------- | :--------------------------------------- |
-| `user_name` | `string` | **Required**. username of TikTok channel |
+| Parameter | Type     | Description                     |
+| :-------- | :------- | :------------------------------ |
+| `hashtag` | `string` | **Required**. hashtag on TikTok |
 
 #### Get insights of trending videos
 
