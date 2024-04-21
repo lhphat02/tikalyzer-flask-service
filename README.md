@@ -6,45 +6,6 @@ API for TikTok analyzing service
 
 **Server:** Sure, it's Flask
 
-## Installation
-
-Initially install with pip
-
-```bash
-    pip install TikTokApi
-    python -m playwright install
-
-```
-
-Now if a small adjustment for your TikTok-API library so that it can works normally:
-
-1. Go to `.venv/Lib/TikTokApi/api/user.py` or by `Crtl + Click` to the `user.videos()` method somewhere in the codes in VSCode.
-
-2. Then go to line 188 in which the code looks like this:
-
-```
-    found = 0
-    while found < count:
-        params = {
-            "secUid": self.sec_uid,
-            "count": count,
-            "cursor": cursor,
-        }
-```
-
-3. Now change the `count` value to `35` like this:
-
-```
-    found = 0
-    while found < count:
-        params = {
-            "secUid": self.sec_uid,
-            "count": 35,
-            "cursor": cursor,
-        }
-```
-
-4. Voila, enjoy! Don't forget to `Ctrl + S`.
 
 ## Run Locally
 
@@ -73,6 +34,45 @@ Start the server
 ```bash
   flask run
 ```
+## Installation and Set up for TikTok-API library
+
+Initially install with pip
+
+```bash
+    pip install TikTokApi
+    python -m playwright install
+
+```
+
+Now if a small adjustment for your TikTok-API library so that it can works normally:
+
+1. Go to `.venv/Lib/TikTokApi/api/user.py` or by `Crtl + Click` to the `user.videos()` method in `app/service/crawl/get_user_videos.py` in VSCode.
+
+2. Then go to line 188 in which the code looks like this:
+
+```
+    found = 0
+    while found < count:
+        params = {
+            "secUid": self.sec_uid,
+            "count": count,
+            "cursor": cursor,
+        }
+```
+
+3. Now change the `count` value to `35` like this:
+
+```
+    found = 0
+    while found < count:
+        params = {
+            "secUid": self.sec_uid,
+            "count": 35,
+            "cursor": cursor,
+        }
+```
+
+4. Voila, enjoy! Don't forget to `Ctrl + S`.
 
 ## API Reference
 
