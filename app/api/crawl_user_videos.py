@@ -8,10 +8,8 @@ from datetime import datetime
 from flask import Blueprint, jsonify, request
 from TikTokApi import TikTokApi
 
-from ...model.response import Response
-from ...model.crawl_response_data import CrawlResponseData
-from ...service.crawl_user_videos import crawl_user_videos
-from . import ms_token
+from ..model.response import Response
+from . import ms_token, chrome_path, format_data
 
 crawl_user_videos_bp = Blueprint('crawl_user_videos', __name__)
 

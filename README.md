@@ -79,12 +79,12 @@ Start the server
 #### Get insights of an user's videos
 
 ```http
-  GET /api/userVideoInsights?username=${username}
+  GET /api/userVideoInsights?username=${user_name}
 ```
 
-| Parameter  | Type     | Description                              |
-| :--------- | :------- | :--------------------------------------- |
-| `username` | `string` | **Required**. username of TikTok channel |
+| Parameter   | Type     | Description                              |
+| :---------- | :------- | :--------------------------------------- |
+| `user_name` | `string` | **Required**. username of TikTok channel |
 
 #### Get insights of a hashtag's videos
 

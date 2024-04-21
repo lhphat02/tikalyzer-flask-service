@@ -1,17 +1,12 @@
 class Response:
-    def __init__(self, success: bool = False, message: str = "", data: object = None):
+    def __init__(self, success=False, message=""):
         self.success = success
         self.message = message
-        self.data = data
-
-    def get_response(self):
-        return {
-            'success': self.success,
-            'message': self.message,
-            'data': self.data
-        }
+        self.data = {}
     
-    def set_response(self, success, message, data):
-        self.success = success
-        self.message = message
-        self.data = data
+    def to_dict(self):
+        return {
+            "success": self.success,
+            "message": self.message,
+            "data": self.data
+        }
