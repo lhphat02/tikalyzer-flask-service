@@ -79,7 +79,7 @@ Start the server
 #### Get insights of an user's videos
 
 ```http
-  GET /api/userVideoInsights?username=${user_name}
+  GET /api/userVideoInsights?user_name=${user_name}
 ```
 
 | Parameter   | Type     | Description                              |
