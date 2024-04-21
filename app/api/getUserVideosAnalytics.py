@@ -13,7 +13,7 @@ get_user_videos_analytics_bp = Blueprint('get_user_videos_analytics', __name__)
 
 async def get_user_videos_analytics(user_name):
     """
-    Get user videos data and save it to a CSV file in 'csv' folder.
+    Get user videos data analytics and return it as JSON.
     
     Args:
         user_name (str): TikTok user name.
