@@ -75,10 +75,14 @@ async def get_user_videos(username):
     async with TikTokApi() as api:
         await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=3,executable_path="C:/Program Files/Google/Chrome/Application/chrome.exe")
         user = api.user(username)
+
+        print(user)
         user_data = await user.info()
+        
+        print(user_data)
         post_count = user_data["userInfo"]["stats"].get("videoCount")
 
-        with open(f"csv/user_videos_{username}.csv" , "w", encoding='utf-8') as f:
+        with open(f"user_videos_{username}.csv" , "w", encoding='utf-8') as f:
             header_labels = "Create_time,Create_year,Create_month,Create_day,Create_hour,Likes,Comments,Saves,Views,Shares,Duration(sec),Video Height,Video Width\n"
             f.write(header_labels)
 
@@ -185,7 +189,7 @@ async def get_trending_videos(num_data=100):
 
             
 if __name__ == "__main__":
-    asyncio.run(get_trending_videos())
+    # asyncio.run(get_trending_videos())
     # asyncio.run(get_hashtag_videos("sofm", 150))
     # asyncio.run(get_user_videos_legacy("sofm_official", 150))
-    # asyncio.run(get_user_videos("sofm_official"))
+    asyncio.run(get_user_videos("sofm_official"))

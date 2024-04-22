@@ -6,6 +6,7 @@ from colorama import Fore
 from ..model.response import Response
 from ..model.data_loader import Dataloader
 from ..service.crawl.get_user_videos import get_user_videos
+from ..service.crawl.get_trending_videos import get_trending_videos
 from ..service.clean.clean_df import clean_data
 from ..service.visualize.visualize_distribution import get_dis_chart
 
@@ -28,10 +29,12 @@ async def get_user_videos_analytics(user_name):
 
     try:
         # Scrape user videos data
-        user_video_data = await get_user_videos(user_name)
+        # user_video_data = await get_user_videos(user_name)
+        # data_loader = Dataloader(user_video_data["data"]["videos"])
 
-        # Get data loader from user videos data
-        data_loader = Dataloader(user_video_data["data"]["videos"])
+        # Scraping trending videos data
+        trending_video_data = await get_trending_videos()
+        data_loader = Dataloader(trending_video_data["data"]["videos"])
 
         # Get dataframe
         df = data_loader.get_df()
