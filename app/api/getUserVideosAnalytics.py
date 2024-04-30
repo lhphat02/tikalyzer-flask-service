@@ -9,13 +9,10 @@ from ..service.crawl.get_user_videos import get_user_videos
 from ..service.crawl.get_trending_videos import get_trending_videos
 from ..service.clean.clean_df import clean_data
 from ..service.visualize.visualize_distribution import get_dis_chart
-from ..service.visualize.visualize_distribution import get_views_of_top_of_day_of_week_chart
-from ..service.visualize.visualize_distribution import get_videos_created_by_year
-from ..service.visualize.visualize_distribution import get_videos_created_by_month
-from ..service.visualize.visualize_distribution import get_videos_created_by_day
-from ..service.visualize.visualize_distribution import get_top_4_rows_and_other
-from ..service.visualize.visualize_distribution import get_videos_created_by_time_period
-from ..service.visualize.visualize_distribution import get_heat_map_correlation_and_engagement_metrics
+from ..service.visualize.visualize_heat_map_correlation import get_heat_map_correlation_and_engagement_metrics
+from ..service.visualize.visualize_top_4 import get_top_4_rows_and_other
+from ..service.visualize.visualize_top_of_views import get_views_of_top_of_day_of_week_chart
+from ..service.visualize.visualize_videos_created import get_videos_created_by_day, get_videos_created_by_time_period, get_videos_created_by_year
 
 get_user_videos_analytics_bp = Blueprint('get_user_videos_analytics', __name__)
 
