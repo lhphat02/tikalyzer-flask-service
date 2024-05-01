@@ -189,7 +189,7 @@ async def get_trending_videos(num_data=100):
 
             
 if __name__ == "__main__":
-    # asyncio.run(get_trending_videos())
+    asyncio.run(get_trending_videos())
     # asyncio.run(get_hashtag_videos("sofm", 150))
     # asyncio.run(get_user_videos_legacy("sofm_official", 150))
-    asyncio.run(get_user_videos("sofm_official"))
+    # asyncio.run(get_user_videos("sofm_official"))
