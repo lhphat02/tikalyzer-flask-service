@@ -29,12 +29,8 @@ async def get_user_videos_analytics(user_name):
 
     try:
         # Scrape user videos data
-        # user_video_data = await get_user_videos(user_name)
-        # data_loader = Dataloader(user_video_data["data"]["videos"])
-
-        # Scraping trending videos data
-        trending_video_data = await get_trending_videos()
-        data_loader = Dataloader(trending_video_data["data"]["videos"])
+        user_video_data = await get_user_videos(user_name)
+        data_loader = Dataloader(user_video_data["data"]["videos"])
 
         # Get dataframe
         df = data_loader.get_df()

@@ -1,10 +1,10 @@
 import pandas as pd
 import joblib
-import json
 import os
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
+
 
 def get_predicted_view_count(df: pd.DataFrame, new_video: dict, username: str,predict_day_interval: int = 30) -> tuple[int, float, float]:
     """
@@ -34,7 +34,7 @@ def get_predicted_view_count(df: pd.DataFrame, new_video: dict, username: str,pr
         os.makedirs("models")
 
     # Define model path with username
-    model_path = f"models/{username}_{predict_day_interval}days_view_count_predictor.pkl"
+    model_path = f"models/{username}_view_count_predictor.pkl"
 
     # Check if model file exists for the username
     if os.path.exists(model_path):
@@ -103,24 +103,3 @@ def format_data(new_video: dict, predict_day_interval) -> dict:
     })
 
     return new_data
-
-# Example usage (assuming you have your video data and username)
-json_data = json.load(open("test.json"))
-
-video_data = pd.DataFrame(json_data)
-
-new_video = {
-    "Create_time": "2024-04-27 12:12:00",
-    "Duration(sec)": 15,
-    "Video Height": 1024,
-    "Video Width": 576,
-
-}
-username = "sofm_official"
-
-predict_day_interval = 90
-
-predicted_views, rmse, r_squared = get_predicted_view_count(video_data, new_video, username, predict_day_interval)
-print(f"Predicted view count in {predict_day_interval} days for {username}: {predicted_views}")
-print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
-print(f"R-squared: {r_squared:.2f}")
