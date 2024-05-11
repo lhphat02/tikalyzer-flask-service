@@ -56,16 +56,21 @@ async def get_user_videos_analytics(user_name):
         median = cleaned_data['Views'].median()
         mode = cleaned_data['Views'].mode().values[0]
 
-        # 
-
-
-
         # Set response data
         response.success = True
         response.message = "User videos data analytics has been generated successfully."
         response.data["displotUrl"] = dist_chart
+        response.data["heatmapUrl"] = heat_map
+        response.data["topDayOfWeekUrl"] = top_day_of_week_chart
+        response.data["topSizePieChartUrl"] = top_size_pie_chart
+        response.data["yearCreateChartUrl"] = year_create_chart
+        response.data["monthCreateChartUrl"] = month_create_chart
+        response.data["dayCreateChartUrl"] = day_create_chart
+        response.data["mean"] = mean
+        response.data["median"] = median
+        response.data["mode"] = mode
         response.data["rowCount"] = len(cleaned_data)
-
+        
         print(f"{Fore.GREEN}User videos data analytics has been generated successfully." + Fore.RESET)
 
         return response.to_dict()
