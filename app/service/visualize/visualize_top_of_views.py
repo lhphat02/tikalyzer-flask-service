@@ -1,25 +1,16 @@
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib
 
 import base64
 from io import BytesIO
 
 
 
-def get_views_of_top_of_day_of_week_chart(df: pd.DataFrame, column: str, color: str = "#008080") -> str:
+def get_views_of_top_of_day_of_week_chart(df: pd.DataFrame) -> str:
     df['Create_time'] = pd.to_datetime(df['Create_time'])
 
     #Add created day of week column
     df['create_date_of_week'] = df['Create_time'].dt.day_name()
-
-    # Find top 3 days of the week with the most views
-    top_3_days = (
-        df.groupby('create_date_of_week')['Views'].sum()
-        .sort_values(ascending=False)
-        .index[:3]
-    )
 
     top_3_days_by_mean = (
         df.groupby('create_date_of_week')['Views'].mean()
@@ -43,25 +34,23 @@ def get_views_of_top_of_day_of_week_chart(df: pd.DataFrame, column: str, color: 
         top_hour = day_data.idxmax()
         top_views = day_data.max()
 
-        if len(day_data) > 1 and day_data.max() == day_data.iloc[-1]:  # Handle ties at last hour
+        if len(day_data) > 1 and day_data.max() == day_data.iloc[-1]:
             top_hours_by_day[day] = (top_hour, top_views, "and last hour")
         else:
             top_hours_by_day[day] = (top_hour, top_views)
 
     data = []
     for day, values in top_hours_by_day.items():
-        hour, views = values[:2]  # Extract hour and views
+        hour, views = values[:2]
         data.append({'Day of Week': day, 'Hour of Day': hour, 'Views': views})
 
     new_df = pd.DataFrame(data)
 
-    plt.figure(figsize=(10, 6))  # Adjust figure size as needed
-    # plt.bar(new_df[column], new_df['Views'], color=color)
+    plt.figure(figsize=(10, 6))
     plt.bar(new_df['Day of Week'], new_df['Views'], color='teal')
     plt.xlabel('Day of Week')
     plt.ylabel('Number of Views')
-    # plt.title('Views for Top Hours of Top Days of Week')
-    plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for readability
+    plt.xticks(rotation=45, ha='right')
 
     # Convert plot to HTML
     buffer = BytesIO()

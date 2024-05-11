@@ -1,13 +1,11 @@
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib
 
 import base64
 from io import BytesIO
 
 
-def get_top_4_rows_and_other(df:pd.DataFrame, column:str, color: str)->str:
+def get_top_size_pie_chart(df:pd.DataFrame)->str:
 
     top_100_views = df.sort_values(by='Views',ascending=False).head(100)
 

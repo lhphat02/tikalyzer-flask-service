@@ -8,7 +8,7 @@ from ..model.data_loader import Dataloader
 from ..service.crawl.get_user_videos import get_user_videos
 from ..service.crawl.get_trending_videos import get_trending_videos
 from ..service.clean.clean_df import clean_data
-from ..service.visualize.visualize_distribution import get_dis_chart
+from ..service.statistic.centrail_tendancy import get_median, get_mean, get_mode
 
 get_test_bp = Blueprint('get_test', __name__)
 
@@ -46,17 +46,20 @@ async def get_test():
         #
         #
         #
-        hello_world = "Hello World"
-        response.data["helloWorld"] = hello_world
+        view_median = get_median(cleaned_data, 'Views')
+        view_mean = get_mean(cleaned_data, 'Views')
+        view_mode = get_mode(cleaned_data, 'Views')
 
-
+        response.data["view_median"] = view_median
+        response.data["view_mean"] = view_mean
+        response.data["view_mode"] = view_mode
         
         # Set response data
         response.success = True
         response.message = "User videos data analytics has been generated successfully."
         response.data["rowCount"] = len(cleaned_data)
 
-        print(f"{Fore.GREEN}User videos data analytics has been generated successfully.")
+        print(f"{Fore.GREEN}User videos data analytics has been generated successfully." + Fore.RESET)
 
         return response.to_dict()
     

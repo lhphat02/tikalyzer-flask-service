@@ -6,16 +6,13 @@ from colorama import Fore
 from ..model.response import Response
 from ..model.data_loader import Dataloader
 from ..service.crawl.get_user_videos import get_user_videos
-from ..service.crawl.get_trending_videos import get_trending_videos
 from ..service.clean.clean_df import clean_data
 from ..service.visualize.visualize_distribution import get_dis_chart
 from ..service.visualize.visualize_heat_map_correlation import get_heat_map_correlation_and_engagement_metrics
-from ..service.visualize.visualize_top_4 import get_top_4_rows_and_other
 from ..service.visualize.visualize_top_of_views import get_views_of_top_of_day_of_week_chart
-from ..service.visualize.visualize_videos_created import get_videos_created_by_day, get_videos_created_by_time_period, get_videos_created_by_year
-from ..service.central_tendancy.get_mean_tendancy import means_of_save, means_of_share, means_of_view, means_of_duration, means_of_like, means_of_comment
-from ..service.central_tendancy.get_median_tendancy import median_of_save, median_of_share, median_of_view, median_of_duration, median_of_like, median_of_comment
-from ..service.central_tendancy.get_mode_tendancy import mode_of_save, mode_of_share, mode_of_view, mode_of_duration, mode_of_like, mode_of_comment
+from ..service.visualize.visualize_top_4 import get_top_size_pie_chart
+from ..service.visualize.visualize_videos_created import get_videos_created_by_year, get_videos_created_by_month
+from ..service.visualize.visualize_videos_created import get_videos_created_by_day
 
 get_user_videos_analytics_bp = Blueprint('get_user_videos_analytics', __name__)
 
@@ -45,36 +42,23 @@ async def get_user_videos_analytics(user_name):
         # Clean user videos data
         cleaned_data = clean_data(df)
 
-        # Get distribution chart
-        # print(cleaned_data)
-        dist_chart = get_dis_chart(cleaned_data, 'Views')
-        # dist_chart = get_views_of_top_of_day_of_week_chart(cleaned_data, 'Day of Week')
-        # dist_chart = get_videos_created_by_year(cleaned_data, 1, 2, 'teal')
-        # dist_chart = get_videos_created_by_day(cleaned_data, 1, 2, 'teal')
-        # dist_chart = get_top_4_rows_and_other(cleaned_data, 'Views', 'teal')
-        # dist_chart = get_heat_map_correlation_and_engagement_metrics(cleaned_data)
- 
-        # dist_chart = get_videos_created_by_time_period(df, "Create_year", 'greenyellow')
-
-        # print(means_of_save(cleaned_data))
-        # print(means_of_share(cleaned_data))
-        # print(means_of_view(cleaned_data))
-        # print(means_of_duration(cleaned_data))
-        # print(means_of_like(cleaned_data))
-        # print(means_of_comment(cleaned_data))
-        # print(median_of_save(cleaned_data))
-        # print(median_of_share(cleaned_data))
-        # print(median_of_view(cleaned_data))
-        # print(median_of_duration(cleaned_data))
-        # print(median_of_like(cleaned_data))
-        # print(median_of_comment(cleaned_data))
-        # print(mode_of_save(cleaned_data))
-        # print(mode_of_share(cleaned_data))
-        # print(mode_of_view(cleaned_data))
-        # print(mode_of_duration(cleaned_data))
-        # print(mode_of_like(cleaned_data))
-        # print(mode_of_comment(cleaned_data))
+        # Get charts
+        dist_chart = get_dis_chart(cleaned_data, 'Views')        
+        heat_map = get_heat_map_correlation_and_engagement_metrics(cleaned_data)
+        top_day_of_week_chart = get_views_of_top_of_day_of_week_chart(cleaned_data, 'Views')
+        top_size_pie_chart = get_top_size_pie_chart(cleaned_data)
+        year_create_chart = get_videos_created_by_year(cleaned_data)
+        month_create_chart = get_videos_created_by_month(cleaned_data)
+        day_create_chart = get_videos_created_by_day(cleaned_data)
         
+        # Get statistic calculations
+        mean = cleaned_data['Views'].mean()
+        median = cleaned_data['Views'].median()
+        mode = cleaned_data['Views'].mode().values[0]
+
+        # 
+
+
 
         # Set response data
         response.success = True
@@ -82,7 +66,7 @@ async def get_user_videos_analytics(user_name):
         response.data["displotUrl"] = dist_chart
         response.data["rowCount"] = len(cleaned_data)
 
-        print(f"{Fore.GREEN}User videos data analytics has been generated successfully.")
+        print(f"{Fore.GREEN}User videos data analytics has been generated successfully." + Fore.RESET)
 
         return response.to_dict()
     

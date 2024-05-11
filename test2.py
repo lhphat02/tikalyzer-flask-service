@@ -114,8 +114,8 @@ new_video = {
     "Duration(sec)": 15,
     "Video Height": 1024,
     "Video Width": 576,
-
 }
+
 username = "sofm_official"
 
 predict_day_interval = 90
