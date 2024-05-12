@@ -33,16 +33,20 @@ async def get_user_videos_analytics(user_name):
 
     try:
         # Scrape user videos data
+        print(f"{Fore.GREEN}PROCESS: Scraping user videos data..." + Fore.RESET)
         user_video_data = await get_user_videos(user_name)
         data_loader = Dataloader(user_video_data["data"]["videos"])
 
         # Get dataframe
+        print(f"{Fore.GREEN}PROCESS: Getting user videos data as a dataframe..." + Fore.RESET)
         df = data_loader.get_df()
 
         # Clean user videos data
         cleaned_data = clean_data(df)
 
         # Get charts
+        print(f"{Fore.GREEN}PROCESS: Generating user videos data analytics..." + Fore.RESET)
+
         dist_chart = get_dis_chart(cleaned_data, 'Views')        
         heat_map = get_heat_map_correlation_and_engagement_metrics(cleaned_data)
         top_day_of_week_chart = get_views_of_top_of_day_of_week_chart(cleaned_data, 'Views')
@@ -52,6 +56,8 @@ async def get_user_videos_analytics(user_name):
         day_create_chart = get_videos_created_by_day(cleaned_data)
         
         # Get statistic calculations
+        print(f"{Fore.GREEN}PROCESS: Calculating statistics..." + Fore.RESET)
+
         mean = cleaned_data['Views'].mean()
         median = cleaned_data['Views'].median()
         mode = cleaned_data['Views'].mode().values[0]
