@@ -129,7 +129,7 @@ def get_videos_created_by_day(df: pd.DataFrame)->str:
     # Return HTML containing the plot
     return f"data:image/png;base64,{plot_data}"
 
-def videos_created_by_time_period(data, time_period):
+def videos_created_by_time_period(data):
     counts = {}
 
     for row in data:
