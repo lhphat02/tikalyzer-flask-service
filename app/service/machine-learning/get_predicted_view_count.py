@@ -6,64 +6,27 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
 
 
-def get_predicted_view_count(df: pd.DataFrame, new_video: dict, username: str,predict_day_interval: int = 30) -> tuple[int, float, float]:
+def get_predicted_view_count(video_url: str) -> int:
     """
     Get the predicted view count for the given video data and calculate accuracy.
 
     Args:
-        df (DataFrame): Video data (ensure it has column names).
         new_video (dict): New video data.
-        username (str): TikTok username.
-        predict_day_interval (int): Number of days to predict the view count for.
 
     Returns:
-        tuple[int, float, float]: Predicted view count, RMSE, and R-squared.
+        int: Predicted view count.
     """
 
-    # Define features and target
-    features = ["Create_year", "Create_month", "Create_day", "Create_hour",
-                "Duration(sec)", "Time_interval", "Video Height", "Video Width"]
-    target = "Views"
+    
 
-    X = df[features]
-    y = df[target]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,random_state=42)
-
-    # Check if models directory exists
-    if not os.path.exists("models"):
-        os.makedirs("models")
-
-    # Define model path with username
-    model_path = f"models/{username}_view_count_predictor.pkl"
-
-    # Check if model file exists for the username
-    if os.path.exists(model_path):
-        # Load the existing model
-        print(f"Loading existing model for {username}")
-        model = joblib.load(model_path)
-    else:
-        # Train a new model if it doesn't exist
-        print(f"Training new model for {username}")
-        model = RandomForestRegressor(n_estimators=100, random_state=42)
-        model.fit(X_train, y_train)
-
-        # Save the new model
-        joblib.dump(model, model_path)
-
-    # Make predictions on the test set (optional, for evaluation)
-    y_pred = model.predict(X_test)
-
-    # Calculate RMSE (a measure of prediction accuracy)
-    rmse = root_mean_squared_error(y_test, y_pred)
-
-    # Calculate R-squared (a measure of how well the model fits the data)
-    r_squared = model.score(X, y)
+    model_path = f"./ml-models/tiktok_rf_100k.pkl"
+    model = joblib.load(model_path)
 
     # Format the new video data
     new_data = format_data(new_video, predict_day_interval)
     predicted_views = model.predict(new_data)[0]
 
-    return int(predicted_views), rmse, r_squared
+    return int(predicted_views)
 
 
 ###############################################################
@@ -103,3 +66,13 @@ def format_data(new_video: dict, predict_day_interval) -> dict:
     })
 
     return new_data
+
+
+def get_video_id(video_url):
+    # Split the URL by '/' and '?' to get individual components
+    parts = video_url.split('/')
+    if len(parts) < 6:
+        return None  # Not a valid TikTok URL
+    # The video ID is the fourth last component
+    video_id = parts[-4]
+    return video_id
