@@ -2,10 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import base64
+from colorama import Fore
 from io import BytesIO
 
 
 def get_top_size_pie_chart(df:pd.DataFrame)->str:
+    print(f"{Fore.YELLOW}SUB-PROCESS: Getting top size pia chart..." + Fore.RESET)
 
     top_100_views = df.sort_values(by='Views',ascending=False).head(100)
 

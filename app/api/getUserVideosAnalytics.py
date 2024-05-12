@@ -48,12 +48,12 @@ async def get_user_videos_analytics(user_name):
         print(f"{Fore.GREEN}PROCESS: Generating user videos data analytics..." + Fore.RESET)
 
         dist_chart = get_dis_chart(cleaned_data, 'Views')        
-        heat_map = get_heat_map_correlation_and_engagement_metrics(cleaned_data)
-        top_day_of_week_chart = get_views_of_top_of_day_of_week_chart(cleaned_data, 'Views')
+        top_day_of_week_chart = get_views_of_top_of_day_of_week_chart(cleaned_data)
         top_size_pie_chart = get_top_size_pie_chart(cleaned_data)
         year_create_chart = get_videos_created_by_year(cleaned_data)
         month_create_chart = get_videos_created_by_month(cleaned_data)
         day_create_chart = get_videos_created_by_day(cleaned_data)
+        heat_map = get_heat_map_correlation_and_engagement_metrics(cleaned_data)
         
         # Get statistic calculations
         print(f"{Fore.GREEN}PROCESS: Calculating statistics..." + Fore.RESET)

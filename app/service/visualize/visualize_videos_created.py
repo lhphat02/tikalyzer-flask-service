@@ -5,6 +5,7 @@ import matplotlib
 
 import base64
 from io import BytesIO
+from colorama import Fore
 
 def videos_created_by_year(data):
     year_counts = {}
@@ -18,6 +19,8 @@ def videos_created_by_year(data):
     return year_counts
 
 def get_videos_created_by_year(df: pd.DataFrame) -> str:
+    print(f"{Fore.YELLOW}SUB-PROCESS: Getting videos created by year chart..." + Fore.RESET)
+
     number_of_videos_created_by_year = videos_created_by_year(df["Create_year"])
 
     years = number_of_videos_created_by_year.keys()
@@ -57,6 +60,7 @@ def videos_created_by_month(data):
     return month_counts
 
 def get_videos_created_by_month(df: pd.DataFrame) -> str:
+    print(f"{Fore.YELLOW}SUB-PROCESS: Getting videos created by month chart..." + Fore.RESET)
 
     number_of_videos_created_by_month = videos_created_by_month(df["Create_month"])
 
@@ -99,6 +103,7 @@ def videos_created_by_day(data):
     return day_counts
 
 def get_videos_created_by_day(df: pd.DataFrame)->str:
+    print(f"{Fore.YELLOW}SUB-PROCESS: Getting videos created by day chart..." + Fore.RESET)
 
     number_of_videos_created_by_day = videos_created_by_day(df["Create_day"])
 

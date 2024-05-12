@@ -2,6 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib
+from colorama import Fore
 
 import base64
 from io import BytesIO
@@ -26,6 +27,8 @@ def get_dis_chart(df: pd.DataFrame,  column: str, color: str = "#00607A") -> str
     Returns:
         str: HTML containing the distribution plot.
     """
+
+    print(f"{Fore.YELLOW}SUB-PROCESS: Getting distribution chart..." + Fore.RESET)
 
     # Create a bar plot
     sns.displot(df[column], kde=False, color=color, bins=30, ec="black")

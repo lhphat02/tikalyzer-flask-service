@@ -3,10 +3,11 @@ import matplotlib.pyplot as plt
 
 import base64
 from io import BytesIO
-
-
+from colorama import Fore
 
 def get_views_of_top_of_day_of_week_chart(df: pd.DataFrame) -> str:
+    print(f"{Fore.YELLOW}SUB-PROCESS: Getting top day of week chart..." + Fore.RESET)
+
     df['Create_time'] = pd.to_datetime(df['Create_time'])
 
     #Add created day of week column
