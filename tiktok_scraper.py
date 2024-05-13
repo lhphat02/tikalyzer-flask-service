@@ -71,7 +71,7 @@ def format_data(video):
   return video_data
 
 
-async def get_trending_videos(num_data=100):
+async def get_trending_videos(num_data=200):
   """
   Get trending videos data and save it as a CSV file.
 
@@ -108,7 +108,7 @@ async def get_trending_videos(num_data=100):
           # Increment row count
           cursor += 1
       
-      with open(f"tiktok_dataset_100.csv", "w", newline="") as csv_file:
+      with open(f"tiktok_dataset_1000.csv", "w", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=video_data_list[0].keys())
         writer.writeheader()
         writer.writerows(video_data_list)
@@ -118,6 +118,8 @@ async def get_trending_videos(num_data=100):
         "success": True,
         "message": f"{len(video_data_list)} trending videos data retrieved successfully and saved as CSV.",
       }
+
+      print(Fore.GREEN + f"{len(video_data_list)} trending videos data retrieved successfully and saved as CSV." + Fore.RESET)
 
       return response_data
 
@@ -169,5 +171,5 @@ async def get_user_videos(user_name):
             print(f"{Fore.RED}Error: {e}" + Fore.RESET)
             
 if __name__ == "__main__":
-    asyncio.run(get_trending_videos(100))
+    asyncio.run(get_trending_videos())
     # asyncio.run(get_user_videos("sofm_official"))

@@ -29,7 +29,7 @@ async def get_hashtag_videos(hashtag, num_data=100):
 
         try:
             while cursor <= num_data:
-                async for video in tag.videos(hashtag, count=30, cursor=cursor):
+                async for video in tag.videos(count=30, cursor=cursor):
                     # Initialize video data
                     video_data = format_data(video)
 

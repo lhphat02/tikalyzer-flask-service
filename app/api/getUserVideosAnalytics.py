@@ -1,6 +1,8 @@
 import asyncio
+import numpy as np
 
 from flask import Blueprint, jsonify, request
+
 from colorama import Fore
 
 from ..model.response import Response
@@ -9,8 +11,8 @@ from ..service.crawl.get_user_videos import get_user_videos
 from ..service.clean.clean_df import clean_data
 from ..service.visualize.visualize_distribution import get_dis_chart
 from ..service.visualize.visualize_heat_map_correlation import get_heat_map_correlation_and_engagement_metrics
-from ..service.visualize.visualize_top_of_views import get_views_of_top_of_day_of_week_chart
-from ..service.visualize.visualize_top_4 import get_top_size_pie_chart
+from ..service.visualize.visualize_top_dow import get_views_of_top_of_day_of_week_chart
+from ..service.visualize.visualize_top_size import get_top_size_pie_chart
 from ..service.visualize.visualize_videos_created import get_videos_created_by_year, get_videos_created_by_month
 from ..service.visualize.visualize_videos_created import get_videos_created_by_day
 
@@ -49,15 +51,14 @@ async def get_user_videos_analytics(user_name):
 
         dist_chart = get_dis_chart(cleaned_data, 'Views')        
         top_day_of_week_chart = get_views_of_top_of_day_of_week_chart(cleaned_data)
-        top_size_pie_chart = get_top_size_pie_chart(cleaned_data)
         year_create_chart = get_videos_created_by_year(cleaned_data)
         month_create_chart = get_videos_created_by_month(cleaned_data)
         day_create_chart = get_videos_created_by_day(cleaned_data)
+        top_size_pie_chart = get_top_size_pie_chart(cleaned_data)
         heat_map = get_heat_map_correlation_and_engagement_metrics(cleaned_data)
         
         # Get statistic calculations
         print(f"{Fore.GREEN}PROCESS: Calculating statistics..." + Fore.RESET)
-
         mean = cleaned_data['Views'].mean()
         median = cleaned_data['Views'].median()
         mode = cleaned_data['Views'].mode().values[0]
@@ -66,15 +67,15 @@ async def get_user_videos_analytics(user_name):
         response.success = True
         response.message = "User videos data analytics has been generated successfully."
         response.data["displotUrl"] = dist_chart
-        response.data["heatmapUrl"] = heat_map
         response.data["topDayOfWeekUrl"] = top_day_of_week_chart
-        response.data["topSizePieChartUrl"] = top_size_pie_chart
         response.data["yearCreateChartUrl"] = year_create_chart
         response.data["monthCreateChartUrl"] = month_create_chart
         response.data["dayCreateChartUrl"] = day_create_chart
-        response.data["mean"] = mean
-        response.data["median"] = median
-        response.data["mode"] = mode
+        response.data["topSizePieChartUrl"] = top_size_pie_chart
+        response.data["heatmapUrl"] = heat_map
+        response.data["mean"] = float(mean)  
+        response.data["median"] = float(median)  
+        response.data["mode"] = int(mode)  
         response.data["rowCount"] = len(cleaned_data)
         
         print(f"{Fore.GREEN}User videos data analytics has been generated successfully." + Fore.RESET)

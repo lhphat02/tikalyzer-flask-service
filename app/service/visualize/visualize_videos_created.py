@@ -8,6 +8,15 @@ from io import BytesIO
 from colorama import Fore
 
 def videos_created_by_year(data):
+    """
+    Count the number of videos created each year.
+
+    Args:
+        data (list): A list of years representing the creation year of each video.
+
+    Returns:
+        dict: A dictionary where the keys are the years and the values are the counts of videos created in each year.
+    """
     year_counts = {}
 
     for row in data:
@@ -19,6 +28,16 @@ def videos_created_by_year(data):
     return year_counts
 
 def get_videos_created_by_year(df: pd.DataFrame) -> str:
+    """
+    Generate a bar chart showing the number of videos created by year.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing the 'Create_year' column.
+
+    Returns:
+        str: The HTML string containing the plot as an image.
+
+    """
     print(f"{Fore.YELLOW}SUB-PROCESS: Getting videos created by year chart..." + Fore.RESET)
 
     number_of_videos_created_by_year = videos_created_by_year(df["Create_year"])
@@ -38,7 +57,8 @@ def get_videos_created_by_year(df: pd.DataFrame) -> str:
     plt.ylabel('Number of Videos')
     plt.title('Videos Created By Year')
     plt.grid(True)
-        # Convert plot to HTML
+    
+    # Convert plot to HTML
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -49,6 +69,15 @@ def get_videos_created_by_year(df: pd.DataFrame) -> str:
     return f"data:image/png;base64,{plot_data}"
 
 def videos_created_by_month(data):
+    """
+    Count the number of videos created per month.
+
+    Args:
+        data (list): A list of months representing the creation month of each video.
+
+    Returns:
+        dict: A dictionary where the keys are the months and the values are the counts of videos created in each month.
+    """
     month_counts = {}
 
     for row in data:
@@ -60,6 +89,16 @@ def videos_created_by_month(data):
     return month_counts
 
 def get_videos_created_by_month(df: pd.DataFrame) -> str:
+    """
+    Generate a bar chart showing the number of videos created per month.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing the 'Create_month' column.
+
+    Returns:
+        str: A string representing the HTML image tag containing the bar chart.
+    """
+    
     print(f"{Fore.YELLOW}SUB-PROCESS: Getting videos created by month chart..." + Fore.RESET)
 
     number_of_videos_created_by_month = videos_created_by_month(df["Create_month"])
@@ -92,6 +131,15 @@ def get_videos_created_by_month(df: pd.DataFrame) -> str:
     return f"data:image/png;base64,{plot_data}"
 
 def videos_created_by_day(data):
+    """
+    Count the number of videos created per day.
+
+    Args:
+        data (list): A list of dates representing the days on which videos were created.
+
+    Returns:
+        dict: A dictionary where the keys are the days and the values are the counts of videos created on each day.
+    """
     day_counts = {}
 
     for row in data:
@@ -102,7 +150,16 @@ def videos_created_by_day(data):
 
     return day_counts
 
-def get_videos_created_by_day(df: pd.DataFrame)->str:
+def get_videos_created_by_day(df: pd.DataFrame) -> str:
+    """
+    Generate a bar chart showing the number of videos created per day.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing the 'Create_day' column.
+
+    Returns:
+        str: A string representing the HTML image tag containing the bar chart.
+    """
     print(f"{Fore.YELLOW}SUB-PROCESS: Getting videos created by day chart..." + Fore.RESET)
 
     number_of_videos_created_by_day = videos_created_by_day(df["Create_day"])
@@ -134,7 +191,17 @@ def get_videos_created_by_day(df: pd.DataFrame)->str:
     # Return HTML containing the plot
     return f"data:image/png;base64,{plot_data}"
 
+
 def videos_created_by_time_period(data):
+    """
+    Counts the number of videos created in each time period.
+
+    Args:
+        data (list): A list of time periods.
+
+    Returns:
+        dict: A dictionary where the keys are time periods and the values are the counts of videos created in each period.
+    """
     counts = {}
 
     for row in data:
@@ -146,6 +213,18 @@ def videos_created_by_time_period(data):
     return counts
 
 def get_videos_created_by_time_period(df: pd.DataFrame, time_period: str, color: str) -> str:
+    """
+    Generate a bar chart showing the number of videos created by a given time period.
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing the video data.
+        time_period (str): The time period to group the videos by.
+        color (str): The color of the bars in the bar chart.
+
+    Returns:
+        str: The HTML string containing the plot as an image.
+
+    """
     number_of_videos_created_by_time_period = videos_created_by_time_period(df[time_period])
 
     periods = number_of_videos_created_by_time_period.keys()

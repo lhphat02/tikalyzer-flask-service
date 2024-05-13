@@ -3,7 +3,7 @@ from TikTokApi import TikTokApi
 from ...model.response import Response
 from .import ms_token, chrome_path, format_data
 
-async def get_trending_videos(num_data=100):
+async def get_trending_videos(num_data=200):
     """
     Get trending videos data and return it as JSON.
 
