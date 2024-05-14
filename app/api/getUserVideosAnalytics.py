@@ -1,5 +1,4 @@
 import asyncio
-import numpy as np
 
 from flask import Blueprint, jsonify, request
 

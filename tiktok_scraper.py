@@ -1,7 +1,5 @@
 from TikTokApi import TikTokApi
 import asyncio
-import json
-import time
 import os
 import datetime
 from colorama import Fore
@@ -171,5 +169,5 @@ async def get_user_videos(user_name):
             print(f"{Fore.RED}Error: {e}" + Fore.RESET)
             
 if __name__ == "__main__":
-    asyncio.run(get_trending_videos())
-    # asyncio.run(get_user_videos("sofm_official"))
+    # asyncio.run(get_trending_videos())
+    asyncio.run(get_user_videos("lelephomaiquee"))
