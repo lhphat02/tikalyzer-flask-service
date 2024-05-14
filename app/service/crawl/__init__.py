@@ -5,7 +5,7 @@ ms_token = os.environ.get("ms_token", None)
 
 chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
 
-def format_data(video):
+def format_data(video: dict) -> dict:
   """
   Format video data, including a new attribute for the time interval
   between create date and current date.

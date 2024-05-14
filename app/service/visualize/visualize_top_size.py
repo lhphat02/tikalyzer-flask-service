@@ -6,18 +6,6 @@ from colorama import Fore
 from io import BytesIO
 
 def get_top_size_pie_chart(df: pd.DataFrame) -> str:
-    """
-    Generate a pie chart based on the top video sizes in the given DataFrame.
-
-    Args:
-        df (pd.DataFrame): The DataFrame containing video data.
-
-    Returns:
-        str: The HTML string representing the generated pie chart.
-
-    """
-    # Rest of the code...
-def get_top_size_pie_chart(df: pd.DataFrame) -> str:
     # Print a message indicating the sub-process
     print(f"{Fore.YELLOW}SUB-PROCESS: Getting top size pie chart..." + Fore.RESET)
 
