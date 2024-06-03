@@ -35,10 +35,13 @@ def get_top_size_pie_chart(df: pd.DataFrame) -> str:
     pie_df.loc[len(pie_df)] = {'Video Size': "Other", 'Number of videos': other_count}
 
     # Create the pie chart
-    plt.figure(figsize=(10, 10))
+    # plt.figure(figsize=(10, 10))
     colors = ['mistyrose', 'mintcream', 'lightyellow', 'papayawhip', 'lavender']
     plt.pie(pie_df['Number of videos'], labels=pie_df['Video Size'], startangle=270, autopct='%1.0f%%', colors=colors)
-    plt.title('Pie Chart with Top 4 Rows and Other')
+    # plt.title('Pie Chart with Top 4 Rows and Other')
+
+    #Add legend
+    plt.legend(pie_df['Video Size'], loc='right')
 
     # Convert the plot to HTML
     buffer = BytesIO()

@@ -55,7 +55,7 @@ def get_videos_created_by_year(df: pd.DataFrame) -> str:
 
     plt.xlabel('Year')
     plt.ylabel('Number of Videos')
-    plt.title('Videos Created By Year')
+    # plt.title('Videos Created By Year')
     plt.grid(True)
     
     # Convert plot to HTML
@@ -116,7 +116,7 @@ def get_videos_created_by_month(df: pd.DataFrame) -> str:
 
     plt.xlabel('Month')
     plt.ylabel('Number of Videos')
-    plt.title('Videos Created By Month')
+    # plt.title('Videos Created By Month')
 
     plt.grid(True)
 
@@ -177,7 +177,7 @@ def get_videos_created_by_day(df: pd.DataFrame) -> str:
 
     plt.xlabel('Day')
     plt.ylabel('Number of Videos')
-    plt.title('Videos Created By Day')
+    # plt.title('Videos Created By Day')
 
     plt.grid(True)
 

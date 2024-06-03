@@ -69,7 +69,7 @@ def get_views_of_top_of_day_of_week_chart(df: pd.DataFrame) -> str:
     plt.bar(new_df['Day of Week'], new_df['Views'], color='teal')
     plt.xlabel('Day of Week')
     plt.ylabel('Number of Views')
-    plt.xticks(rotation=45, ha='right')
+    # plt.xticks(rotation=45, ha='right')
 
     # Convert the plot to HTML
     buffer = BytesIO()

@@ -1,19 +1,22 @@
 import asyncio
-
 from flask import Blueprint, jsonify, request
-
 from colorama import Fore
+import pandas as pd
+from io import StringIO
+import base64
 
-from ..model.response import Response
+from ..model.response import Response as CustomResponse
 from ..model.data_loader import Dataloader
 from ..service.crawl.get_user_videos import get_user_videos
 from ..service.clean.clean_df import clean_data
+from ..service.clean.convert_csv_df import convert_df_to_csv
 from ..service.visualize.visualize_distribution import get_dis_chart
 from ..service.visualize.visualize_heat_map_correlation import get_heat_map_correlation_and_engagement_metrics
 from ..service.visualize.visualize_top_dow import get_views_of_top_of_day_of_week_chart
 from ..service.visualize.visualize_top_size import get_top_size_pie_chart
 from ..service.visualize.visualize_videos_created import get_videos_created_by_year, get_videos_created_by_month
 from ..service.visualize.visualize_videos_created import get_videos_created_by_day
+from ..service.crawl.get_user_info import get_user_info
 
 get_user_videos_analytics_bp = Blueprint('get_user_videos_analytics', __name__)
 
@@ -30,12 +33,26 @@ async def get_user_videos_analytics(user_name):
         dict["data"] (object): Response data.
     """
 
-    response = Response()
+    response = CustomResponse()
 
     try:
+        # Get user information
+        print(f"{Fore.GREEN}PROCESS: Getting user information..." + Fore.RESET)
+        user_info = await get_user_info(user_name)
+        print(user_info)
+
+        if not user_info["success"]:
+            raise Exception(user_info["message"])
+
+        video_count = user_info["data"]["userInfo"]["stats"]["videoCount"]
+
         # Scrape user videos data
         print(f"{Fore.GREEN}PROCESS: Scraping user videos data..." + Fore.RESET)
-        user_video_data = await get_user_videos(user_name)
+        user_video_data = await get_user_videos(user_name, video_count)
+        
+        if not user_video_data["success"]:
+            raise Exception(user_video_data["message"])
+
         data_loader = Dataloader(user_video_data["data"]["videos"])
 
         # Get dataframe
@@ -62,9 +79,16 @@ async def get_user_videos_analytics(user_name):
         median = cleaned_data['Views'].median()
         mode = cleaned_data['Views'].mode().values[0]
 
+        # Convert cleaned_data to CSV format and encode to base64
+        csv_string = convert_df_to_csv(cleaned_data)
+        csv_base64 = base64.b64encode(csv_string.encode()).decode()
+
         # Set response data
         response.success = True
         response.message = "User videos data analytics has been generated successfully."
+        response.data["username"] = user_name
+        response.data["userInfo"] = user_info["data"]["userInfo"]
+        response.data["userMetaData"] = user_info["data"]["shareMeta"]
         response.data["displotUrl"] = dist_chart
         response.data["topDayOfWeekUrl"] = top_day_of_week_chart
         response.data["yearCreateChartUrl"] = year_create_chart
@@ -76,6 +100,7 @@ async def get_user_videos_analytics(user_name):
         response.data["median"] = float(median)  
         response.data["mode"] = int(mode)  
         response.data["rowCount"] = len(cleaned_data)
+        response.data["csvData"] = csv_base64
         
         print(f"{Fore.GREEN}User videos data analytics has been generated successfully." + Fore.RESET)
 
@@ -83,7 +108,7 @@ async def get_user_videos_analytics(user_name):
     
     except Exception as e:
         # Set response data
-        response.message = e
+        response.message = str(e)
         response.data = None
 
         print(f"{Fore.RED}Error: {e}")
@@ -102,5 +127,5 @@ def user_videos_analytics():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     user_videos_data = loop.run_until_complete(get_user_videos_analytics(user_name))
+    
     return jsonify(user_videos_data)
-

@@ -129,45 +129,119 @@ async def get_trending_videos(num_data=200):
 
 
 async def get_user_videos(user_name):
-    """
-    Get user videos data and return it as JSON.
+  """
+  Get user videos data and save it as a CSV file.
+
+  Args:
+    user_name (str): TikTok user name.
+
+  Returns:
+    dict["success"] (bool): True if the operation is successful, False otherwise.
+    dict["message"] (str): Response message.
+    dict["data"] (object): Response data (list of video dictionaries and row count).
+  """
+
+  video_data_list = []
+
+  async with TikTokApi() as api:
+    # Create TikTok sessions
+    await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=1, executable_path=chrome_path)
+
+    # Get user videos count
+    user = api.user(user_name)
+    user_data = await user.info()
+    post_count = user_data["userInfo"]["stats"].get("videoCount")
+    # data_count = 1000 if post_count > 300 else post_count
+
+    try:
+      async for video in user.videos(count=post_count):
+        # Initialize video data
+        video_data = format_data(video)
+
+        print(video_data)
+
+        # Append video data to the list
+        video_data_list.append(video_data)
+
+      with open(f"{user_name}_videos.csv", "w", newline="") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=video_data_list[0].keys())
+        writer.writeheader()
+        writer.writerows(video_data_list)
+
+      response_data = {
+        "success": True,
+        "message": f"{len(video_data_list)} user videos data retrieved successfully and saved as CSV.",
+        "data": {
+          "videos": video_data_list,
+          "row_count": len(video_data_list)
+        }
+      }
+
+      print(f"{Fore.GREEN}{len(video_data_list)} user videos data retrieved successfully and saved as CSV." + Fore.RESET)
+
+      return response_data
+
+    except Exception as e:
+      response_data = {
+        "success": False,
+        "message": str(e),
+        "data": None
+      }
+
+      print(f"{Fore.RED}Error: {e}" + Fore.RESET)
+
+      return response_data
     
+
+import json
+from TikTokApi import TikTokApi
+from colorama import Fore
+
+async def get_user_info(user_name):
+    """
+    Get user information and save it as a CSV file.
+
     Args:
         user_name (str): TikTok user name.
-        
+
     Returns:
-        success (bool): True if the operation is successful, False otherwise.
-        message (str): Response message.
-        data (object): Response data (list of video dictionaries and row count).
+        dict["success"] (bool): True if the operation is successful, False otherwise.
+        dict["message"] (str): Response message.
+        dict["data"] (object): Response data (user information dictionary).
     """
 
-    video_data_list = []
-
     async with TikTokApi() as api:
-        # Create TikTok sessions 
-        await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=1,executable_path=chrome_path)
-
-        # Get user videos count
-        user = api.user(user_name)
-        user_data = await user.info()
-        post_count = user_data["userInfo"]["stats"].get("videoCount")
-        data_count = 1000 if post_count > 300 else post_count
+        # Create TikTok sessions
+        await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=1, executable_path=chrome_path)
 
         try:
-            async for video in user.videos(count=data_count):
-                # Initialize video data
-                video_data = format_data(video)
+            user = api.user(user_name)
+            user_data = await user.info()
 
-                print(video_data)
+            response_data = {
+                "success": True,
+                "message": f"{user_name} user information retrieved successfully and saved as CSV.",
+                "data": user_data.to_dict()
+            }
 
-                # Append video data to the list
-                video_data_list.append(video_data)
+            print(f"{Fore.GREEN}{user_name} user information retrieved successfully and saved as CSV." + Fore.RESET)
+            print(user_data.to_dict())
 
-            print(f"{Fore.GREEN}User videos data has been retrieved successfully." + Fore.RESET)
+            return response_data
 
         except Exception as e:
+            response_data = {
+                "success": False,
+                "message": str(e),
+                "data": None
+            }
+
             print(f"{Fore.RED}Error: {e}" + Fore.RESET)
+
+            return response_data
+
             
 if __name__ == "__main__":
     # asyncio.run(get_trending_videos())
-    asyncio.run(get_user_videos("lelephomaiquee"))
+    # asyncio.run(get_user_videos("lazadavietnam"))
+    asyncio.run(get_user_info("lazadavietnam"))

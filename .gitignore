@@ -31,3 +31,4 @@ include/
 
 # Local folder storage
 csv/
+data/
