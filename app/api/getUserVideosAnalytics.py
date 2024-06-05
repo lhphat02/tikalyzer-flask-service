@@ -11,6 +11,7 @@ from ..service.crawl.get_user_videos import get_user_videos
 from ..service.clean.clean_df import clean_data
 from ..service.clean.convert_csv_df import convert_df_to_csv
 from ..service.visualize.visualize_distribution import get_dis_chart
+from ..service.visualize.visualize_top_duration import get_top_duration_chart
 from ..service.visualize.visualize_heat_map_correlation import get_heat_map_correlation_and_engagement_metrics
 from ..service.visualize.visualize_top_dow import get_views_of_top_of_day_of_week_chart
 from ..service.visualize.visualize_top_size import get_top_size_pie_chart
@@ -65,7 +66,12 @@ async def get_user_videos_analytics(user_name):
         # Get charts
         print(f"{Fore.GREEN}PROCESS: Generating user videos data analytics..." + Fore.RESET)
 
-        dist_chart = get_dis_chart(cleaned_data, 'Views')        
+        dist_chart_view = get_dis_chart(cleaned_data, 'Views')      
+        dist_chart_like = get_dis_chart(cleaned_data, 'Likes', color="#FFA07A")
+        dist_chart_comment = get_dis_chart(cleaned_data, 'Comments', color="#7B68EE")
+        dist_chart_share = get_dis_chart(cleaned_data, 'Shares', color="#00FF7F")
+        dist_chart_save = get_dis_chart(cleaned_data, 'Saves', color="#FFD700")   
+        top_duration_chart = get_top_duration_chart(cleaned_data)  
         top_day_of_week_chart = get_views_of_top_of_day_of_week_chart(cleaned_data)
         year_create_chart = get_videos_created_by_year(cleaned_data)
         month_create_chart = get_videos_created_by_month(cleaned_data)
@@ -78,6 +84,8 @@ async def get_user_videos_analytics(user_name):
         mean = cleaned_data['Views'].mean()
         median = cleaned_data['Views'].median()
         mode = cleaned_data['Views'].mode().values[0]
+        standard_deviation = cleaned_data['Views'].std()
+
 
         # Convert cleaned_data to CSV format and encode to base64
         csv_string = convert_df_to_csv(cleaned_data)
@@ -89,7 +97,12 @@ async def get_user_videos_analytics(user_name):
         response.data["username"] = user_name
         response.data["userInfo"] = user_info["data"]["userInfo"]
         response.data["userMetaData"] = user_info["data"]["shareMeta"]
-        response.data["displotUrl"] = dist_chart
+        response.data["viewDistributionChartUrl"] = dist_chart_view
+        response.data["likeDistributionChartUrl"] = dist_chart_like
+        response.data["commentDistributionChartUrl"] = dist_chart_comment
+        response.data["shareDistributionChartUrl"] = dist_chart_share
+        response.data["saveDistributionChartUrl"] = dist_chart_save
+        response.data["topDurationChartUrl"] = top_duration_chart
         response.data["topDayOfWeekUrl"] = top_day_of_week_chart
         response.data["yearCreateChartUrl"] = year_create_chart
         response.data["monthCreateChartUrl"] = month_create_chart
@@ -99,6 +112,7 @@ async def get_user_videos_analytics(user_name):
         response.data["mean"] = float(mean)  
         response.data["median"] = float(median)  
         response.data["mode"] = int(mode)  
+        response.data["standardDeviation"] = float(standard_deviation)
         response.data["rowCount"] = len(cleaned_data)
         response.data["csvData"] = csv_base64
         
