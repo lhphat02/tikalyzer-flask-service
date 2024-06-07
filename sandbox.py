@@ -104,5 +104,37 @@ def format_data(video):
   return video_data
 
 
+###############################################################
+
+
+async def download_video(video_url: str, output_path: str):
+    """
+    Download the video from the given URL to the specified output path.
+
+    Args:
+        video_url (str): URL of the video to download.
+        output_path (str): Path to save the downloaded video.
+
+    Returns:
+        None
+    """
+    
+    video_id = video_url.split("/")[-1]
+
+    async with TikTokApi() as api:
+        await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=1, executable_path=executable_path)
+        
+        print("Video id: ", video_id)
+
+        video_bytes = await api.video(id=video_id).bytes()  # Await the coroutine
+
+        # Saving The Video
+        with open(output_path, 'wb') as output:
+            output.write(video_bytes)
+    
+    return None
+
+
 if __name__ == "__main__":
-    asyncio.run(get_predicted_view_count("https://www.tiktok.com/@lazadavietnam/video/7366216481861864711"))
+    # asyncio.run(get_predicted_view_count("https://www.tiktok.com/@lazadavietnam/video/7366216481861864711"))
+    asyncio.run(download_video("https://www.tiktok.com/@sofm_official/video/7376582565605526800", "video.mp4"))
