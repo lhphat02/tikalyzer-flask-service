@@ -6,6 +6,7 @@ from .api.getHashtagAnalytics import get_hashtag_videos_analytics_bp
 from .api.getTrendingAnalytics import get_trending_videos_analytics_bp
 from .api.getUserVideos import get_user_videos_bp
 from .api.test import get_test_bp
+from .api.generateInsights import generate_tiktok_insight_bp
 
 def create_app():
     app = Flask(__name__)
@@ -18,5 +19,6 @@ def create_app():
     app.register_blueprint(get_trending_videos_analytics_bp)
     app.register_blueprint(get_user_videos_bp)
     app.register_blueprint(get_test_bp)
+    app.register_blueprint(generate_tiktok_insight_bp)
 
     return app
