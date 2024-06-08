@@ -134,7 +134,27 @@ async def download_video(video_url: str, output_path: str):
     
     return None
 
+###############################################################
+
+async def get_video_info(video_url: str) -> dict:
+    """
+    Get video information from the given URL.
+
+    Args:
+        video_url (str): URL of the video.
+
+    Returns:
+        dict: Video information.
+    """
+    async with TikTokApi() as api:
+        await api.create_sessions(headless=True, ms_tokens=[ms_token], num_sessions=1, sleep_after=1, executable_path=executable_path)
+        video_info = await api.video(url=video_url).info()
+
+    print("Video info: ", video_info)
+    return video_info
+
 
 if __name__ == "__main__":
     # asyncio.run(get_predicted_view_count("https://www.tiktok.com/@lazadavietnam/video/7366216481861864711"))
-    asyncio.run(download_video("https://www.tiktok.com/@sofm_official/video/7376582565605526800", "video.mp4"))
+    # asyncio.run(download_video("https://www.tiktok.com/@sofm_official/video/7376582565605526800", "video.mp4"))
+    asyncio.run(get_video_info("https://www.tiktok.com/@sofm_official/video/7376582565605526800"))

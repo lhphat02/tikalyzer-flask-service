@@ -24,7 +24,7 @@ async def get_predicted_view_count(video_url: str) -> int:
 
     model = joblib.load(model_path)
     
-    predicted_views = model.predict(new_data)[0]
+    predicted_views = model.predict(new_data)[0] // 1000
     
     print("Predicted views: ", predicted_views)
 

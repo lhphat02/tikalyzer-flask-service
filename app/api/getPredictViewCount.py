@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from colorama import Fore
 from ..model.response import Response
 from ..service.machinelearning.get_predicted_view_count import get_predicted_view_count as get_predicted_view_count_service
+from ..service.crawl.get_video_info import get_video_info
 
 get_predicted_view_count_bp = Blueprint('get_predicted_view_count', __name__)
 
@@ -25,12 +26,14 @@ async def get_predicted_view_count(video_url):
     try:
         # Predict view count
         print(f"{Fore.GREEN}PROCESS: Predicting view count..." + Fore.RESET)
+        video_info = await get_video_info(video_url)
         predicted_view_count = await get_predicted_view_count_service(video_url)
 
         # Set response data
         response.success = True
         response.message = "Predicted view count has been calculated successfully."
-        response.data = predicted_view_count
+        response.data["video_info"] = video_info
+        response.data["predicted_view_count"] = predicted_view_count
         
         print(f"{Fore.GREEN}Predicted view count has been calculated successfully." + Fore.RESET)
 
